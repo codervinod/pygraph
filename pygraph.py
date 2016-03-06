@@ -51,6 +51,25 @@ class PyGraph(object):
 			for neighbor in self.gdict[item]:
 				queue.append(neighbor)
 
+	def topoSortUtil(self, node, visited, topoStack):
+		if node in visited:
+			return
+
+		visited.add(node)
+		for neighbor in self.gdict[node]:
+			self.topoSortUtil(neighbor, visited, topoStack)
+
+		topoStack.append(node)
+
+	def topoSort(self):
+		print "Topology Sort"
+		visited = set()
+		topoStack = list()
+		for node in self.gdict.iterkeys():
+			self.topoSortUtil(node, visited, topoStack)
+
+		while topoStack:
+			print topoStack.pop()
 
 def main():
 	graph = PyGraph()
@@ -63,6 +82,7 @@ def main():
 
 	graph.dfs()
 	graph.bfs()
+	graph.topoSort()
 
 if __name__ == '__main__':
 	main()
